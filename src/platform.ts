@@ -23,7 +23,7 @@ export class FurboHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API,
   ) {
-    this.furboClient = new FurboAPIClient(config);
+    this.furboClient = new FurboAPIClient(config, log);
 
     this.log.info('Finished initializing platform:', this.furboClient.getDeviceName());
 

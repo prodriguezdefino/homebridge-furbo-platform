@@ -66,9 +66,9 @@ export class FurboTreatTosser {
     this.platform.log.info('Tossing treat ->', value);
 
     this.furboClient.tossTreat().then(response => {
-      this.platform.log.info('Treat tossed: ' + response);
+      this.platform.log.info('Treat tossed: ' + JSON.stringify(response));
     }).catch(error => {
-      this.platform.log.error(error);
+      this.platform.log.error(JSON.stringify(error));
     }).finally(()=>{
       this.exampleStates.On = false;
     });

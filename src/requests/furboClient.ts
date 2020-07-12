@@ -66,7 +66,7 @@ export class FurboAPIClient extends HttpClient {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,
       AccountId: this.sessionInfo.AccountId,
       DeviceId: this.deviceInfo?.Id,
-      LocalTime: new Date(),
+      LocalTime: new Date().toISOString().split('.')[0],
       Increment: "1"
     }
     return await this.instance.post<TossResponse>('/v3/account/toss_count/update', furboPayload);

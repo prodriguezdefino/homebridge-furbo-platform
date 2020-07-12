@@ -1,15 +1,22 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "FurboPlatform",
   "pluginType": "platform",
   "singular": true,
   "schema": {
     "type": "object",
     "properties": {
-      "name": {
-        "title": "Name",
+      "email": {
+        "title": "Furbo Account Email",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "format": "email",
+        "default": "dummy@email.com"
+      },
+      "encpass": {
+        "title": "Furbo Account Encrypted Password",
+        "type": "string",
+        "required": true,
+        "default": "somepassword"
       }
     }
   }

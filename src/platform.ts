@@ -33,8 +33,10 @@ export class FurboHomebridgePlatform implements DynamicPlatformPlugin {
     // to start discovery of new accessories.
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
-      // run the method to discover / register your devices as accessories
-      this.discoverDevices();
+      this.furboClient.initializationPromise.then(()=>{
+        // run the method to discover / register your devices as accessories
+        this.discoverDevices();
+      });
     });
   }
 

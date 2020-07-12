@@ -9,6 +9,7 @@ export class FurboAPIClient extends HttpClient {
   private deviceInfo: DeviceInfo = {};
   private readonly accountEmail: string;
   private readonly accountEncPassword: string;
+  public readonly initializationPromise:Promise<void>;
 
   public constructor(
     private readonly config: PlatformConfig
@@ -21,8 +22,7 @@ export class FurboAPIClient extends HttpClient {
 
     this._initializeRequestInterceptor();
 
-    this._initializeClient();
-    console.log("Client initialized");
+    this.initializationPromise = this._initializeClient();
   }
 
   private _initializeRequestInterceptor = () => {
@@ -54,6 +54,7 @@ export class FurboAPIClient extends HttpClient {
     const [device] = devicesInfo.DeviceList;
     this.deviceInfo = device;
     console.log("device info: " + this.deviceInfo);
+    console.log("Client initialized");
   }
 
   private _login = (login: Login) => this.instance.post<LoginResponse>('/v2/account/login', login);

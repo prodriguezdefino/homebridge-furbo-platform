@@ -25,7 +25,7 @@ export class FurboHomebridgePlatform implements DynamicPlatformPlugin {
   ) {
     this.furboClient = new FurboAPIClient(config);
 
-    this.log.info('Finished initializing platform:', this.config.name);
+    this.log.info('Finished initializing platform:', this.furboClient.getDeviceName());
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,

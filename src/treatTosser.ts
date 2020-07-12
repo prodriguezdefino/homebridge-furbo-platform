@@ -63,10 +63,10 @@ export class FurboTreatTosser {
     // implement your own code to turn your device on/off
     this.exampleStates.On = value as boolean;
 
-    this.platform.log.debug('Tossing treat ->', value);
+    this.platform.log.info('Tossing treat ->', value);
 
     this.furboClient.tossTreat().then(response => {
-      this.platform.log.debug('Treat tossed: ' + response);
+      this.platform.log.info('Treat tossed: ' + response);
     }).catch(error => {
       this.platform.log.error(error);
     }).finally(()=>{

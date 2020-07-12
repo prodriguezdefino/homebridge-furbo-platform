@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { HttpClient } from './baseHTTPClient';
-import { PlatformConfig } from 'homebridge';
+import { PlatformConfig, Logger } from 'homebridge';
 
 export class FurboAPIClient extends HttpClient {
 
@@ -12,7 +12,8 @@ export class FurboAPIClient extends HttpClient {
   public readonly initializationPromise:Promise<void>;
 
   public constructor(
-    private readonly config: PlatformConfig
+    private readonly config: PlatformConfig,
+    public readonly log: Logger
     ) {
     // hardcoded url for the base domain of the API.
     super('https://product.furbo.co');
@@ -45,7 +46,7 @@ export class FurboAPIClient extends HttpClient {
     }
 
     this.sessionInfo = await this._login(loginInfo);
-    console.log("session info: " + this.sessionInfo);
+    this.log.info("session info: " + JSON.stringify(this.sessionInfo));
     const furboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken"
     };
@@ -53,8 +54,8 @@ export class FurboAPIClient extends HttpClient {
     const devicesInfo = await this._retrieveDevices(accountId, furboPayload);
     const [device] = devicesInfo.DeviceList;
     this.deviceInfo = device;
-    console.log("device info: " + this.deviceInfo);
-    console.log("Client initialized");
+    this.log.info("device info: " + JSON.stringify(this.deviceInfo));
+    this.log.info("Client initialized");
   }
 
   private _login = (login: Login) => this.instance.post<LoginResponse>('/v2/account/login', login);

@@ -106,15 +106,14 @@ export class FurboAPIClient extends HttpClient {
   }
 
   public tossTreat = async () => {
-    const time = moment().format("YYYY-MM-DDTHH:mm:ss");
-    this.log.info("sending local time: " + time);
     const furboPayload: FurboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,
       AccountId: this.sessionInfo.AccountId,
       DeviceId: this.deviceInfo?.Id,
-      LocalTime: time,
+      LocalTime: moment().format("YYYY-MM-DDTHH:mm:ss"),
       Increment: "1"
     }
+    this.log.info("request to be sent: " + JSON.stringify(furboPayload));
     return await this.instance.post<TossResponse>('/v3/account/toss_count/update', furboPayload);
   }
 

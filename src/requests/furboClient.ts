@@ -106,7 +106,7 @@ export class FurboAPIClient extends HttpClient {
   }
 
   public tossTreat = async () => {
-    const time = moment().format("YYYY-MM-DDT00:00:00");
+    const time = moment().format("YYYY-MM-DDTHH:mm:ss");
     this.log.info("sending local time: " + time);
     const furboPayload: FurboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,

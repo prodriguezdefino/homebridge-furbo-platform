@@ -2,7 +2,7 @@ import { Service, PlatformAccessory, CharacteristicValue, CharacteristicSetCallb
 
 import { FurboHomebridgePlatform } from './platform';
 
-import { FurboAPIClient } from './requests/furboClient'
+import { FurboAPIClient } from './requests/furboClient';
 
 /**
  * Platform Accessory

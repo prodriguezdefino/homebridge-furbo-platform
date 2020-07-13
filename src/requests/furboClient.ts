@@ -35,7 +35,7 @@ export class FurboAPIClient extends HttpClient {
 
   private _handleRequest = (config: AxiosRequestConfig) => {
     config.headers['authorization'] = this.authorization;
-
+    config.headers['user-agent'] = 'furbo/2 CFNetwork/1126 Darwin/19.5.0';
     return config;
   };
 
@@ -97,7 +97,7 @@ export class FurboAPIClient extends HttpClient {
   private _redDot = (payload: FurboPayload) => this.instance.post(`/v3/account/red_dot`, payload);
   
   public tossCount = () => {
-    let furboPayload: FurboPayload = {
+    const furboPayload: FurboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,
       AccountId: this.sessionInfo.AccountId
     }
@@ -105,11 +105,13 @@ export class FurboAPIClient extends HttpClient {
   }
 
   public tossTreat = async () => {
-    let furboPayload: FurboPayload = {
+    const time = new Date().toISOString().split('.')[0];
+    this.log.info("local time: " + time);
+    const furboPayload: FurboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,
       AccountId: this.sessionInfo.AccountId,
       DeviceId: this.deviceInfo?.Id,
-      LocalTime: new Date().toISOString().split('.')[0],
+      LocalTime: time,
       Increment: "1"
     }
     return await this.instance.post<TossResponse>('/v3/account/toss_count/update', furboPayload);

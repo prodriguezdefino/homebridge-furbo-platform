@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { FurboTreatTosser } from './treatTosser';
-import { FurboAPIClient } from './requests/furboClient'
+import { FurboAPIClient } from './requests/furboClient';
 
 /**
  * HomebridgePlatform

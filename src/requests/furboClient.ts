@@ -70,12 +70,11 @@ export class FurboAPIClient extends HttpClient {
     const license = await this._license(furboPayload);
     this.log.info("license info: " + JSON.stringify(license));
 
-
-    const tossCount = this.tossCount();
+    const tossCount = await this.tossCount();
     this.log.info("toss count info: " + JSON.stringify(tossCount));
 
-    const redDot = this._redDot(furboPayload);
-    this.log.info("toss count info: " + JSON.stringify(redDot));
+    const redDot = await this._redDot(furboPayload);
+    this.log.info("red dot info: " + JSON.stringify(redDot));
 
     this.log.info("Client initialized");
   }
@@ -88,12 +87,12 @@ export class FurboAPIClient extends HttpClient {
   private _license = (payload: FurboPayload) => this.instance.post(`/v3/service/license`, payload);
   private _redDot = (payload: FurboPayload) => this.instance.post(`/v2/account/red_dot`, payload);
   
-  public tossCount = async () => {
+  public tossCount = () => {
     let furboPayload: FurboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,
       AccountId: this.sessionInfo.AccountId
     }
-    return await this.instance.post<TossResponse>('/v3/account/toss_count/get', furboPayload);
+    return this.instance.post('/v3/account/toss_count/get', furboPayload);
   }
 
   public tossTreat = async () => {

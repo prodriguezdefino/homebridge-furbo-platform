@@ -8,6 +8,8 @@
 
 # Homebridge Platform Plugin Template
 
+![Build and Lint](https://github.com/prodriguezdefino/homebridge-furbo-platform/workflows/Build%20and%20Lint/badge.svg)
+
 This is a template Homebridge platform plugin and can be used as a base to help you get started developing your own plugin.
 
 This template should be use in conjunction with the [developer documentation](https://developers.homebridge.io/). A full list of all supported service types, and their characteristics is available on this site.

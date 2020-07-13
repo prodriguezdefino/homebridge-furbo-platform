@@ -106,18 +106,8 @@ export class FurboAPIClient extends HttpClient {
   }
 
   public tossTreat = async () => {
-    const timeUTC = new Date();
-    let dateStr = ""+timeUTC.getFullYear+"-"+timeUTC.getMonth()+"-"+timeUTC.getDay()
-      +"T"+timeUTC.getHours()+":"+timeUTC.getMinutes()+":"+timeUTC.getSeconds();
-    const localTime = new Date(Date.UTC(timeUTC.getFullYear(), timeUTC.getMonth(), 
-      timeUTC.getDay(), timeUTC.getHours(), timeUTC.getMinutes(), timeUTC.getSeconds()));
-    const time = localTime.toISOString().split('.')[0];
-    const ut = timeUTC.toISOString().split('.')[0];
-      this.log.info("utc time: " + timeUTC);
-    this.log.info("local time: " + localTime);
-    this.log.info("req time: " + time);
-    this.log.info(`ut time: ` + dateStr);
-    this.log.info("moment: " + moment().format())
+    const time = moment().format("YYYY-MM-DDT00:00:00");
+    this.log.info("sending local time: " + time);
     const furboPayload: FurboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,
       AccountId: this.sessionInfo.AccountId,

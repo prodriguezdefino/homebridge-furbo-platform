@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { HttpClient } from './baseHTTPClient';
 import { PlatformConfig, Logger } from 'homebridge';
+import moment from 'moment';
 
 export class FurboAPIClient extends HttpClient {
 
@@ -106,12 +107,17 @@ export class FurboAPIClient extends HttpClient {
 
   public tossTreat = async () => {
     const timeUTC = new Date();
+    let dateStr = ""+timeUTC.getFullYear+"-"+timeUTC.getMonth()+"-"+timeUTC.getDay()
+      +"T"+timeUTC.getHours()+":"+timeUTC.getMinutes()+":"+timeUTC.getSeconds();
     const localTime = new Date(Date.UTC(timeUTC.getFullYear(), timeUTC.getMonth(), 
       timeUTC.getDay(), timeUTC.getHours(), timeUTC.getMinutes(), timeUTC.getSeconds()));
     const time = localTime.toISOString().split('.')[0];
-    this.log.info("utc time: " + timeUTC);
+    const ut = timeUTC.toISOString().split('.')[0];
+      this.log.info("utc time: " + timeUTC);
     this.log.info("local time: " + localTime);
     this.log.info("req time: " + time);
+    this.log.info(`ut time: ` + dateStr);
+    this.log.info("moment: " + moment().format())
     const furboPayload: FurboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,
       AccountId: this.sessionInfo.AccountId,

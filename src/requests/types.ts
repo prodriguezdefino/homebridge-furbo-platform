@@ -42,13 +42,13 @@ interface Login {
 
 interface LoginResponse {
      AccountId?: string;
-	CognitoId?: string;
-	CognitoToken?: string;
-	Email?: string;
-	IsInAppSurveyReceived?: boolean;
-	Locale?: string;
-	Status?: string;
-	Type?: string;
+     CognitoId?: string;
+     CognitoToken?: string;
+     Email?: string;
+     IsInAppSurveyReceived?: boolean;
+     Locale?: string;
+     Status?: string;
+     Type?: string;
 }
 
 interface TossResponse {
@@ -58,4 +58,13 @@ interface TossResponse {
 interface TossCount {
      DeviceId?: string;
      TossCount?: number;
+}
+
+interface MobileLogin {
+     CognitoToken: string;
+     SnsToken?: string;
+     Platform: string;
+     AccountId: string;
+     MobileName: string;
+     MobileId: string;
 }

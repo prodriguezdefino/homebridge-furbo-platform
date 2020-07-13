@@ -61,7 +61,16 @@ export class FurboAPIClient extends HttpClient {
     const profile = await this._petProfile(furboPayload);
     this.log.info("profile info: " + JSON.stringify(profile));
 
-    // TODO: add mobile login
+    const mobileLogin: MobileLogin = {
+      AccountId: this.sessionInfo.AccountId || "dummyAccount",
+      CognitoToken: this.sessionInfo.CognitoToken || "dummyToken",
+      MobileName: "IPhone",
+      Platform: "APNS",
+      MobileId: this.config.deviceId,
+      SnsToken: this.config.snsToken
+    };  
+    const mobileLoginResponse = await this._mobileLogin(mobileLogin);
+    this.log.info("mobile login info: " + JSON.stringify(mobileLoginResponse));
 
     delete furboPayload.LastUpdatedTime;
     const licensePermission = await this._licensePermission(furboPayload);
@@ -82,7 +91,7 @@ export class FurboAPIClient extends HttpClient {
   private _accountLogin = (login: Login) => this.instance.post<LoginResponse>('/v2/account/login', login);
   private _retrieveDevices = (accountId: string, payload: FurboPayload) => this.instance.post<DeviceInfoResponse>(`/v2/account/${accountId}/device`, payload);
   private _petProfile = (payload: FurboPayload) => this.instance.post(`/v3/pet/profile/get`, payload);
-  private _mobileLogin = () => this.instance.post(`/v2/mobile/login`);
+  private _mobileLogin = (payload: MobileLogin) => this.instance.post(`/v2/mobile/login`, payload);
   private _licensePermission = (payload: FurboPayload) => this.instance.post(`/v3/service/license/permission`, payload);
   private _license = (payload: FurboPayload) => this.instance.post(`/v3/service/license`, payload);
   private _redDot = (payload: FurboPayload) => this.instance.post(`/v3/account/red_dot`, payload);

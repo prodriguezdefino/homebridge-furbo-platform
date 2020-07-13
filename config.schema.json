@@ -17,6 +17,18 @@
         "type": "string",
         "required": true,
         "default": "somepassword"
+      },
+      "deviceId": {
+        "title": "Apple Device ID",
+        "type": "string",
+        "required": true,
+        "default": "someid"
+      },
+      "snsToken": {
+        "title": "AWS SNS Token",
+        "type": "string",
+        "required": true,
+        "default": "somesnstoken"
       }
     }
   }

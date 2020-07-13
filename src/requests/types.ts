@@ -5,6 +5,7 @@ interface FurboPayload {
      DeviceId?: string;
      Increment?: string;
      LocalTime?: string;
+     LastUpdatedTime?: string;
 }
 
 interface DeviceInfoResponse {

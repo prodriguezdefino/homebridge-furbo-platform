@@ -45,9 +45,9 @@ export class FurboAPIClient extends HttpClient {
       EncPassword: this.accountEncPassword
     }
 
-    this.sessionInfo = await this._login(loginInfo);
+    this.sessionInfo = await this._accountLogin(loginInfo);
     this.log.info("session info: " + JSON.stringify(this.sessionInfo));
-    const furboPayload = {
+    let furboPayload: FurboPayload = {
       CognitoToken: this.sessionInfo.CognitoToken || "dummyToken"
     };
     const accountId = this.sessionInfo.AccountId || "dummyAccount";
@@ -55,12 +55,46 @@ export class FurboAPIClient extends HttpClient {
     const [device] = devicesInfo.DeviceList;
     this.deviceInfo = device;
     this.log.info("device info: " + JSON.stringify(this.deviceInfo));
+    
+    furboPayload.AccountId = this.sessionInfo.AccountId;
+    furboPayload.LastUpdatedTime = "" + Date.parse(this.deviceInfo.LastRegisteredTime || Date.now().toString()) / 1000;
+    const profile = await this._petProfile(furboPayload);
+    this.log.info("profile info: " + JSON.stringify(profile));
+
+    // TODO: add mobile login
+
+    delete furboPayload.LastUpdatedTime;
+    const licensePermission = await this._licensePermission(furboPayload);
+    this.log.info("license permission info: " + JSON.stringify(licensePermission));
+
+    const license = await this._license(furboPayload);
+    this.log.info("license info: " + JSON.stringify(license));
+
+
+    const tossCount = this.tossCount();
+    this.log.info("toss count info: " + JSON.stringify(tossCount));
+
+    const redDot = this._redDot(furboPayload);
+    this.log.info("toss count info: " + JSON.stringify(redDot));
+
     this.log.info("Client initialized");
   }
 
-  private _login = (login: Login) => this.instance.post<LoginResponse>('/v2/account/login', login);
-
+  private _accountLogin = (login: Login) => this.instance.post<LoginResponse>('/v2/account/login', login);
   private _retrieveDevices = (accountId: string, payload: FurboPayload) => this.instance.post<DeviceInfoResponse>(`/v2/account/${accountId}/device`, payload);
+  private _petProfile = (payload: FurboPayload) => this.instance.post(`/v3/pet/profile/get`, payload);
+  private _mobileLogin = () => this.instance.post(`/v2/mobile/login`);
+  private _licensePermission = (payload: FurboPayload) => this.instance.post(`/v3/service/license/permission`, payload);
+  private _license = (payload: FurboPayload) => this.instance.post(`/v3/service/license`, payload);
+  private _redDot = (payload: FurboPayload) => this.instance.post(`/v2/account/red_dot`, payload);
+  
+  public tossCount = async () => {
+    let furboPayload: FurboPayload = {
+      CognitoToken: this.sessionInfo.CognitoToken || "dummyToken" ,
+      AccountId: this.sessionInfo.AccountId
+    }
+    return await this.instance.post<TossResponse>('/v3/account/toss_count/get', furboPayload);
+  }
 
   public tossTreat = async () => {
     let furboPayload: FurboPayload = {

@@ -85,7 +85,7 @@ export class FurboAPIClient extends HttpClient {
   private _mobileLogin = () => this.instance.post(`/v2/mobile/login`);
   private _licensePermission = (payload: FurboPayload) => this.instance.post(`/v3/service/license/permission`, payload);
   private _license = (payload: FurboPayload) => this.instance.post(`/v3/service/license`, payload);
-  private _redDot = (payload: FurboPayload) => this.instance.post(`/v2/account/red_dot`, payload);
+  private _redDot = (payload: FurboPayload) => this.instance.post(`/v3/account/red_dot`, payload);
   
   public tossCount = () => {
     let furboPayload: FurboPayload = {
